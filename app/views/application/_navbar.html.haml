@@ -1,0 +1,14 @@
+%header.navbar.navbar-fixed-top.navbar-inverse
+  .navbar-inner
+    .container
+      = link_to "sample app", '#', id: "logo", class: "brand"
+      %ul.nav
+        -nav_items = Hash["Admin"=> admin_path, "Groups"=> admin_path, "Users"=> admin_users_path]
+        
+        -nav_items.each  do |label, path| 
+          %li{class: ("active" if current_page?(path))}
+            = link_to label, path
+
+      %ul.nav.pull-right
+        %li= link_to "Edit Profile",    '#'
+        %li= link_to "Sign in", '#'

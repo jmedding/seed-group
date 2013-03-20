@@ -1,0 +1,12 @@
+-content_for :title do "Capex Group Admin Page" end
+%nav
+  = link_to "Users", admin_users_path
+
+%h1 Capex Group Admin Page
+
+%table#group_table.table
+  %tr
+    %th Group
+    %th Users
+    %th
+  =render :partial => 'group', :collection => @roots

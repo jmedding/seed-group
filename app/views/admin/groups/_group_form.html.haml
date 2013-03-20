@@ -1,0 +1,9 @@
+=form_for [:admin, @group] do |f|
+  %p
+    =f.label :name
+    =f.text_field :name
+  %p
+    =f.label :parent_id, "Parent Group"
+    =f.collection_select(:parent_id, @allowed_parents, :id, :name)
+  %p
+    =f.submit

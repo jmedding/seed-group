@@ -1,0 +1,14 @@
+%tr
+  %td= group_with_depth(group)
+  %td{id: ["group", group.id, "users"]} #{group.users.count} 
+  %td
+    = link_to "Add User", new_admin_user_path(group_id: group.id), id: "new_user_group_#{group.id}_link", class: "btn"
+    = link_to "Add new Group", new_admin_group_path(parent_id: group.id), id: "add_group_#{group.id}_link", class: "btn"
+    =link_to edit_admin_group_path(group), id: "edit_group_#{group.id}_link", class: "btn" do
+      <i class="icon-pencil"></i> Edit
+    - warning = "Move or delete all users from the group '#{group.name}' and its sub-groups before deleting. Continue?"
+    =link_to({controller: "admin/groups", action: "destroy", id: group.id}, {confirm: warning, method: "delete", id: "delete_group_#{group.id}_button", class: "btn"}) do
+      <i class="icon-trash"></i> Delete
+
+-unless group.leaf?
+  =render :partial => 'group', :collection => group.children

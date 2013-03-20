@@ -1,0 +1,10 @@
+%h1= "Create a new user for group: #{@group.name}"
+
+=form_for @user, url: url_for(controller: "admin/users", action: "create"), html: {id: "new_user"} do |f|
+  =f.hidden_field :group_id, value: @group.id
+  %p
+    =f.label :email
+    =f.text_field :email
+
+  %p
+    =f.submit

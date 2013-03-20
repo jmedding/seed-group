@@ -1,0 +1,33 @@
+-content_for :title do "Capex User Admin Page" end
+
+%nav
+  = link_to "Groups", admin_path
+
+%h1 Capex User Admin Page
+
+%table#group_table.table
+  %tr
+    %th Group
+    %th User
+    %th Admin
+    %th
+  -@users_by_group.keys.each do |group_id|
+    %tr
+      %td= group_with_depth(Group.find_by_id(group_id))
+      %td
+      %td    
+      %td
+    - @users_by_group[group_id].each do |user|
+      %tr
+        %td
+        %td= user.email
+        %td
+          -if user.admin
+            <i class="icon-ok"></i>
+        %td 
+          =link_to(edit_admin_user_path(user), id: "edit_user_#{user.id}_link", class: "btn")  do
+            <i class="icon-pencil"></i> Edit
+          - warning = "Are you sure that you want to permanently delete the account for '#{user.email}'?"
+          = link_to admin_user_path(user), {confirm: warning, method: "delete", id: "delete_user_#{user.id}_button", class: "btn"} do
+            <i class="icon-trash"></i> Delete User
+            

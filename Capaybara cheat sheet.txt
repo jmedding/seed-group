@@ -1,0 +1,7 @@
+Capaybara cheat sheet
+
+#print the raw hmtl when a page is visited
+p page.html
+
+#get value of drop_down
+find_field("#my-dropdown").value
