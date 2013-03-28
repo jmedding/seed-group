@@ -34,4 +34,6 @@ describe User do
     accessible_users.where(group_id: child1_1.id).to_a.count.should == 1
     accessible_users.where(group_id: child1_2.id).to_a.count.should == 1
   end
+
+  
 end

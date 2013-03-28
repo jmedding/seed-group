@@ -12,13 +12,10 @@ feature 'The admin can' do
   
   scenario ' add a user to a group' do
     email = 'new_user@user_test.com'
+    group = child1
     num_users = child1.users.count
-    click_link "new_user_group_#{child1.id}_link"
-    within("#new_user") do
-      fill_in "Email", with: email
-      click_button "Create User"
-    end
-    find("#group_#{child1.id}_users").text.should == (num_users + 1).to_s
+    create_new_user(email, child1)
+    find("#group_#{group.id}_users").text.should == (num_users + 1).to_s
     last_email.to.should include email
   end
 
@@ -55,5 +52,23 @@ feature 'The admin can' do
       page.should_not have_content(user.email)
     end
     User.where(id: user.id).count.should == 0    
+  end
+
+  scenario "indicates if the user has not yet confirmed their account" do
+    #find td with email address, it should also include icon-warning-sign
+    icon_xpath = "i[@class='icon-envelope']"
+    email = 'new_user@user_test.com'
+    group = child1
+    num_users = child1.users.count
+    create_new_user(email, child1)
+    visit admin_users_path
+    new_user_field = find(:xpath, "//td", text: /#{Regexp.quote(email)}/)
+    new_user_field.should have_xpath(icon_xpath)
+    admin_user_field = find(:xpath, "//td", text:/#{Regexp.quote(admin.email)}/)
+    admin_user_field.should_not have_xpath(icon_xpath)
+    group.users.last.confirm!
+    visit admin_users_path
+    new_user_field = find(:xpath, "//td", text: /#{Regexp.quote(email)}/)
+    new_user_field.should_not have_xpath(icon_xpath)    
   end
 end

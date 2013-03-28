@@ -27,6 +27,15 @@ Spork.prefork do
     parent
   end
 
+  def create_new_user(email, group)
+    click_link "new_user_group_#{group.id}_link"
+    within("#new_user") do
+      fill_in "Email", with: email
+      click_button "Create User"
+    end
+    #return user id???
+  end
+
   def populate_groups_and_users(parent = nil)
     parent ||= create_parent_and_some_descendant_groups
     names = %w( _a 1_a 1_b 1_c 1.1_a 1.2_b)

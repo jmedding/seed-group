@@ -1,8 +1,5 @@
 -content_for :title do "Capex User Admin Page" end
 
-%nav
-  = link_to "Groups", admin_path
-
 %h1 Capex User Admin Page
 
 %table#group_table.table
@@ -20,10 +17,13 @@
     - @users_by_group[group_id].each do |user|
       %tr
         %td
-        %td= user.email
+        %td
+          = user.email
+          - unless user.confirmed?
+            %i.icon-envelope{style:"color:red;", "data-toggle"=>"tooltip", "title"=>"User has not confirmed account"}
         %td
           -if user.admin
-            <i class="icon-ok"></i>
+            %i.icon-ok{style:"color:green"}
         %td 
           =link_to(edit_admin_user_path(user), id: "edit_user_#{user.id}_link", class: "btn")  do
             <i class="icon-pencil"></i> Edit
